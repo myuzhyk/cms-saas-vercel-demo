@@ -18,7 +18,11 @@ import { toValidOpenGraphType } from "@/lib/opengraph";
 
 // SDK Components
 import { type OptimizelyNextPage } from "@remkoj/optimizely-cms-nextjs";
-import { RichText, CmsEditable, CmsContentArea } from "@remkoj/optimizely-cms-react/rsc";
+import {
+  RichText,
+  CmsEditable,
+  CmsContentArea,
+} from "@remkoj/optimizely-cms-react/rsc";
 import { localeToGraphLocale } from "@remkoj/optimizely-graph-client";
 
 export const BlogPostPage: OptimizelyNextPage<
@@ -102,10 +106,23 @@ export const BlogPostPage: OptimizelyNextPage<
       </div>
 
       {continueReading && continueReading.length ? (
-        <CmsContentArea fieldName="continueReading" items={ continueReading } className="outer-padding flex flex-col items-center" itemWrapper={{ className: "data-[component=ContentRecsElement]:w-full"}}  />
+        <CmsContentArea
+          fieldName="continueReading"
+          items={continueReading}
+          className="outer-padding flex flex-col items-center"
+          itemWrapper={{
+            className: "data-[component=ContentRecsElement]:w-full",
+          }}
+        />
       ) : (
         <div className="outer-padding">
-          { inEditMode && <CmsContentArea fieldName="continueReading" items={ [] } className="outer-padding flex flex-col items-center"/> }
+          {inEditMode && (
+            <CmsContentArea
+              fieldName="continueReading"
+              items={[]}
+              className="outer-padding flex flex-col items-center"
+            />
+          )}
           <div className="w-full flex flex-col items-center gap-8 lg:gap-12 pb-8 lg:pb-12">
             <div className="uppercase">More picks just for you</div>
             <div className="text-6xl font-bold">Want to keep reading?</div>
@@ -144,10 +161,10 @@ BlogPostPage.getMetaData = async (contentLink, locale, client) => {
 
   const canonicalUrl = new URL(
     blogPost?.cms?.url?.default ?? "/",
-    blogPost?.cms?.url?.base ?? "http://localhost:3000",
+    blogPost?.cms?.url?.base ?? process.env.SITE_DOMAIN,
   );
 
-  const topics = blogPost?.topics?.filter(isNotNullOrUndefined) || undefined
+  const topics = blogPost?.topics?.filter(isNotNullOrUndefined) || undefined;
 
   const meta: WithPropertySet<Metadata, "openGraph" | "other"> = {
     title: blogPost.seo?.title || blogPost.title || blogPost.cms?.title,
@@ -167,7 +184,7 @@ BlogPostPage.getMetaData = async (contentLink, locale, client) => {
     },
     authors: blogPost.author ? [{ name: blogPost.author }] : [],
     other: {
-      "idio:content-type": "Blog post"
+      "idio:content-type": "Blog post",
     },
   };
   const pageImage =
@@ -181,8 +198,8 @@ BlogPostPage.getMetaData = async (contentLink, locale, client) => {
     ];
   }
   if (topics) {
-    meta.other["article:tag"] = topics
-    meta.other["idio:topic"] = topics
+    meta.other["article:tag"] = topics;
+    meta.other["idio:topic"] = topics;
   }
   return meta;
 };
