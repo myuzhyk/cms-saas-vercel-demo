@@ -161,7 +161,7 @@ BlogPostPage.getMetaData = async (contentLink, locale, client) => {
 
   const canonicalUrl = new URL(
     blogPost?.cms?.url?.default ?? "/",
-    blogPost?.cms?.url?.base ?? process.env.SITE_DOMAIN,
+    blogPost?.cms?.url?.base ?? process.env.NEXT_PUBLIC_SITE_DOMAIN,
   );
 
   const topics = blogPost?.topics?.filter(isNotNullOrUndefined) || undefined;

@@ -93,7 +93,7 @@ BlogSectionExperienceExperience.getMetaData = async (
   const imageUrl = imageData?.default ?? undefined;
   const canonicalUrl = new URL(
     metaData?._metadata?.url?.default ?? "/",
-    metaData?._metadata?.url?.base ?? process.env.SITE_DOMAIN,
+    metaData?._metadata?.url?.base ?? process.env.NEXT_PUBLIC_SITE_DOMAIN,
   );
 
   return {
